@@ -1,11 +1,12 @@
 package com.maveric.authenticationauthorizationservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maveric.authenticationauthorizationservice.constant.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 @Builder
@@ -24,7 +25,7 @@ public class UserDto {
 
     private String address;
 
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
