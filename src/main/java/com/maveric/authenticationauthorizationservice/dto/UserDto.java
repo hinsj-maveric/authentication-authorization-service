@@ -1,6 +1,5 @@
 package com.maveric.authenticationauthorizationservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maveric.authenticationauthorizationservice.constant.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
