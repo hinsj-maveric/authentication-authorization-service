@@ -32,21 +32,20 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     FeignConsumer feignConsumer;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         String jwt = null;
         String userEmail = null;
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            filterChain.doFilter(request, response);
-            return;
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
+            jwt = authHeader.substring(7);
+            userEmail = jwtService.extractUserEmail(jwt);
         }
 
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUserEmail(jwt);
-
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = this.userService.loadUserByUsername(userEmail);
+            UserDetails userDetails = userService.loadUserByUsername(userEmail);
             if(jwtService.isTokenValid(jwt, userDetails)){
                 ResponseEntity<UserDto> userResponseEntity = feignConsumer.getUserByEmail(userEmail);
                 UserDto getUserIdFromUser = userResponseEntity.getBody();

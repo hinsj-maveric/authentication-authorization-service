@@ -5,18 +5,19 @@ import com.maveric.authenticationauthorizationservice.dto.AuthenticationResponse
 import com.maveric.authenticationauthorizationservice.dto.UserDto;
 import com.maveric.authenticationauthorizationservice.feignclient.FeignConsumer;
 import com.maveric.authenticationauthorizationservice.service.JWTService;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1")
@@ -62,6 +63,23 @@ public class AuthController {
         return new ResponseEntity<>(getAuthResponse(jwt, user), HttpStatus.OK);
     }
 
+    @GetMapping("/auth/validateToken")
+    public ResponseEntity<ConnValidationResponse> validateGet(HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        return ResponseEntity.ok(ConnValidationResponse.builder().status("OK").methodType(HttpMethod.GET.name())
+                .userId(userId)
+                .isAuthenticated(true).build());
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class ConnValidationResponse {
+        private String status;
+        private boolean isAuthenticated;
+        private String methodType;
+        private String userId;
+    }
 
     public AuthenticationResponse getAuthResponse(String token , UserDto user){
         AuthenticationResponse authResponse = new AuthenticationResponse();
