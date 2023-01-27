@@ -20,9 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class ApplicationConfig {
 
-//    private final String AUTH_URL = "/api/v1/auth";
-//    private final String LOGIN_URL = "/api/v1/auth/login";
-//    private final String SIGNUP_URL = "/api/v1/auth/signup";
+    private final String API_V1_LOGIN = "/api/v1/auth/login";
+    private final String API_V1_SIGNUP = "/api/v1/auth/signup";
 
     @Autowired
     UserService userService;
@@ -58,7 +57,7 @@ public class ApplicationConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers(API_V1_LOGIN, API_V1_SIGNUP)
                 .permitAll()
                 .anyRequest()
                 .authenticated()

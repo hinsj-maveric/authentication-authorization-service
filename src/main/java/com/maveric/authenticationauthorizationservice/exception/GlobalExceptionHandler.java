@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
 //    @ExceptionHandler(FeignException.class)
 //    public ResponseEntity<ErrorDto> handleFeign(FeignException e) {
-//        ErrorDto error = getError(e.getMessage(), String.valueOf(HttpStatus.NOT_FOUND.value()));
+//        ErrorDto error = getError(e.getMessage()., String.valueOf(HttpStatus.NOT_FOUND.value()));
 //        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 //    }
 
