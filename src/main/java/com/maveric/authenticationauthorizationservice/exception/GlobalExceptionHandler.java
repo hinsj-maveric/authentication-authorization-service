@@ -48,6 +48,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+
     @ExceptionHandler(HttpServerErrorException.ServiceUnavailable.class)
     public ResponseEntity<ErrorDto>  serviceUnavailable(HttpServerErrorException.ServiceUnavailable serviceUnavailable){
         ErrorDto error = getError(String.valueOf(serviceUnavailable.getMessage()),String.valueOf(HttpStatus.SERVICE_UNAVAILABLE));
