@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "feignUser", url = "http://localhost:3005/api/v1")
+@FeignClient(value = "user-service")
 public interface FeignConsumer {
 
-    @PostMapping("/users")
+    @PostMapping("api/v1/users")
     ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto);
 
-    @GetMapping("/users/getUserByEmail/{emailId}")
+    @GetMapping("api/v1/users/getUserByEmail/{emailId}")
     ResponseEntity<UserDto> getUserByEmail(@PathVariable String emailId);
 }

@@ -5,6 +5,7 @@ import com.maveric.authenticationauthorizationservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -57,8 +58,12 @@ public class ApplicationConfig {
         httpSecurity
                 .csrf()
                 .disable()
+                .cors()
+                .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(API_V1_LOGIN, API_V1_SIGNUP, API_V1_VALIDATE)
+                .permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
