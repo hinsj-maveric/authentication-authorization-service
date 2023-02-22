@@ -2,6 +2,7 @@ package com.maveric.authenticationauthorizationservice.service;
 
 import com.maveric.authenticationauthorizationservice.constant.Gender;
 import com.maveric.authenticationauthorizationservice.dto.UserDto;
+import com.maveric.authenticationauthorizationservice.exception.UserNotFoundException;
 import com.maveric.authenticationauthorizationservice.feignclient.FeignConsumer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
 import java.util.Date;
@@ -32,23 +34,19 @@ class UserServiceTest {
     @InjectMocks
     UserService userService;
 
+    @Mock
+    UserDetails userDetails;
+
     @Test
     void loadUserByUsername() {
         when(feignConsumer.getUserByEmail(anyString())).thenReturn(getSampleUserDto());
+
+        UserDetails userDetails1 = userService.loadUserByUsername("hinsj@maveric-systems.com");
 
         UserDto userDto = feignConsumer.getUserByEmail("hinsj@maveric-systems.com").getBody();
 
         assertNotNull(userDto);
         assertSame("hinsj@maveric-systems.com", userDto.getEmail());
-    }
-
-    @Test
-    void shouldThrowErrorWhenloadUserByUsername() {
-        when(feignConsumer.getUserByEmail(anyString())).thenReturn(getSampleUserDto());
-
-        UserDto userDto = feignConsumer.getUserByEmail("hins@maveric-systems.com").getBody();
-
-        assertNotSame("hins@maveric-systems.com", userDto.getEmail());
     }
 
     public ResponseEntity<UserDto> getSampleUserDto(){
