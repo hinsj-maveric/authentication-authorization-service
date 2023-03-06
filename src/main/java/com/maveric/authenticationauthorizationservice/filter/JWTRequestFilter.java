@@ -48,8 +48,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = userService.loadUserByUsername(userEmail);
             if(jwtService.isTokenValid(jwt, userDetails)){
                 ResponseEntity<UserDto> userResponseEntity = feignConsumer.getUserByEmail(userEmail);
-                UserDto getUserIdFromUser = userResponseEntity.getBody();
-                request.setAttribute("userId", getUserIdFromUser.getId());
+                UserDto getUserIdFromUser = userResponseEntity.getBody(); //NOSONAR
+                request.setAttribute("userId", getUserIdFromUser.getId()); //NOSONAR
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

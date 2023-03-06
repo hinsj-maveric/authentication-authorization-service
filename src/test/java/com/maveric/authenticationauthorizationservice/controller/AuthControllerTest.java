@@ -88,6 +88,15 @@ class AuthControllerTest {
     }
 
     @Test
+    void shouldThrowErrorlogin() throws Exception {
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(BadCredentialsException.class);
+        mockMvc.perform(post(API_V1_AUTH+"/login").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(getSampleLoginUserDto())))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     void getAuthResponse() throws Exception{
         String bearerToken = "Bearer eyJhbGciOiJIUzI1NJ9.eyJzdWIiOiJyYWphQGdtYWlsLmNvbSIsImV4cCI6MTY2MzI1NzA5MCwiaWF0IjoxNjYzMjIxMDkwfQ.wQl4ssfFUiRtqpsbVYGtFT1kS7MFMI6PwSJc3K5Jw2M";
         mockMvc.perform(get(API_V1_AUTH+"/validateToken").

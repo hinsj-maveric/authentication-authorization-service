@@ -21,9 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class ApplicationConfig {
 
-    private final String API_V1_LOGIN = "/api/v1/auth/login";
-    private final String API_V1_SIGNUP = "/api/v1/auth/signup";
-    private final String API_V1_VALIDATE = "/api/v1/auth/validateToken";
+    private final static String API_V1_LOGIN = "/api/v1/auth/login";
+    private final static String API_V1_SIGNUP = "/api/v1/auth/signup";
+    private final static String API_V1_VALIDATE = "/api/v1/auth/validateToken";
 
     @Autowired
     UserService userService;

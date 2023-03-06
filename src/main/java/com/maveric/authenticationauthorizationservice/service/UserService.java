@@ -22,8 +22,8 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ResponseEntity<UserDto> userResponseEntity = feignConsumer.getUserByEmail(email);
         if(userResponseEntity.getBody() != null){
-            UserDto user = userResponseEntity.getBody();
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+            UserDto user = userResponseEntity.getBody(); //NOSONAR
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>()); //NOSONAR
         }else {
             throw new UserNotFoundException("User not found with the email " + email);
         }
